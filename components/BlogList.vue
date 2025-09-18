@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       <BlogPostCard v-for="p in items" :key="p.id" :post="p" />
     </div>
     <div ref="sentinel" class="h-10"></div>
-    <div v-if="loading" class="py-6 text-center text-gray-500">Ładowanie...</div>
-    <div v-else-if="!hasMore && items.length === 0" class="py-6 text-center text-gray-500">Brak wyników</div>
+    <div v-if="loading" class="py-6 text-center text-muted">Ładowanie...</div>
+    <div v-else-if="!hasMore && items.length === 0" class="py-6 text-center text-muted">Brak wyników</div>
   </div>
   
 </template>

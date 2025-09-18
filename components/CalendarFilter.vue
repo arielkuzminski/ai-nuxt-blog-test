@@ -3,12 +3,12 @@
     <input
       type="date"
       v-model="date"
-      class="rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black/20"
+      class="input-base"
       @change="$emit('change', date || undefined)"
     />
     <button
       v-if="date"
-      class="text-sm text-gray-600 hover:text-black"
+      class="text-sm text-muted hover:text-app"
       @click="clear"
     >Wyczyść</button>
   </div>
