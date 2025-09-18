@@ -1,0 +1,53 @@
+[
+    {
+        "id": "1",
+        "title": "Pierwszy wpis na blogu",
+        "excerpt": "Krótki opis pierwszego wpisu.",
+        "publishedAt": "2025-09-01",
+        "widgets": [
+            {
+                "id": "w1",
+                "type": "text",
+                "html": "<p>To jest <strong>pierwszy</strong> akapit treści.</p>"
+            },
+            {
+                "id": "w2",
+                "type": "image",
+                "url": "https://picsum.photos/seed/1/1200/600",
+                "alt": "Obrazek 1"
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "title": "Drugi wpis z obrazkiem",
+        "excerpt": "Opis drugiego wpisu.",
+        "publishedAt": "2025-09-05",
+        "widgets": [
+            {
+                "id": "w3",
+                "type": "text",
+                "html": "<p>Wpis z obrazkiem poniżej.</p>"
+            },
+            {
+                "id": "w4",
+                "type": "image",
+                "url": "https://picsum.photos/seed/2/1200/600",
+                "alt": "Obrazek 2"
+            }
+        ]
+    },
+    {
+        "id": "3",
+        "title": "Wpis o Nuxt 4",
+        "excerpt": "Nowości i funkcje w Nuxt 4.",
+        "publishedAt": "2025-09-12",
+        "widgets": [
+            {
+                "id": "w5",
+                "type": "text",
+                "html": "<p>Nuxt 4 to nowa generacja frameworka.</p>"
+            }
+        ]
+    }
+]
