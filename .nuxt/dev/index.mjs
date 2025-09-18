@@ -3,7 +3,7 @@ import { Server } from 'node:http';
 import { resolve, dirname, join } from 'node:path';
 import nodeCrypto from 'node:crypto';
 import { parentPort, threadId } from 'node:worker_threads';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, createError, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, getRouterParam, getResponseStatusText } from 'file://R:/repo/Nuxt%20Blog/node_modules/h3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, removeResponseHeader, createError, getResponseStatus, getQuery as getQuery$1, readBody, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getRouterParam, getResponseStatusText } from 'file://R:/repo/Nuxt%20Blog/node_modules/h3/dist/index.mjs';
 import { escapeHtml } from 'file://R:/repo/Nuxt%20Blog/node_modules/@vue/shared/dist/shared.cjs.js';
 import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file://R:/repo/Nuxt%20Blog/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, decodePath, withLeadingSlash, withoutTrailingSlash, joinRelativeURL } from 'file://R:/repo/Nuxt%20Blog/node_modules/ufo/dist/index.mjs';
@@ -20,7 +20,7 @@ import { createFetch, Headers as Headers$1 } from 'file://R:/repo/Nuxt%20Blog/no
 import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file://R:/repo/Nuxt%20Blog/node_modules/node-mock-http/dist/index.mjs';
 import { createStorage, prefixStorage } from 'file://R:/repo/Nuxt%20Blog/node_modules/unstorage/dist/index.mjs';
 import unstorage_47drivers_47fs from 'file://R:/repo/Nuxt%20Blog/node_modules/unstorage/drivers/fs.mjs';
-import { digest } from 'file://R:/repo/Nuxt%20Blog/node_modules/ohash/dist/index.mjs';
+import { digest, hash as hash$1 } from 'file://R:/repo/Nuxt%20Blog/node_modules/ohash/dist/index.mjs';
 import { toRouteMatcher, createRouter } from 'file://R:/repo/Nuxt%20Blog/node_modules/radix3/dist/index.mjs';
 import { readFile } from 'node:fs/promises';
 import consola, { consola as consola$1 } from 'file://R:/repo/Nuxt%20Blog/node_modules/consola/dist/index.mjs';
@@ -32,8 +32,11 @@ import { getContext } from 'file://R:/repo/Nuxt%20Blog/node_modules/unctx/dist/i
 import { captureRawStackTrace, parseRawStackTrace } from 'file://R:/repo/Nuxt%20Blog/node_modules/errx/dist/index.js';
 import { promises } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { dirname as dirname$1, resolve as resolve$1 } from 'file://R:/repo/Nuxt%20Blog/node_modules/pathe/dist/index.mjs';
+import { dirname as dirname$1, resolve as resolve$1, basename, isAbsolute } from 'file://R:/repo/Nuxt%20Blog/node_modules/pathe/dist/index.mjs';
+import { getIcons } from 'file://R:/repo/Nuxt%20Blog/node_modules/@iconify/utils/lib/index.mjs';
+import { collections } from 'file://R:/repo/Nuxt%20Blog/.nuxt/nuxt-icon-server-bundle.mjs';
 import { walkResolver } from 'file://R:/repo/Nuxt%20Blog/node_modules/unhead/dist/utils.mjs';
+import { ipxFSStorage, ipxHttpStorage, createIPX, createIPXH3Handler } from 'file://R:/repo/Nuxt%20Blog/node_modules/ipx/dist/index.mjs';
 
 const serverAssets = [{"baseName":"server","dir":"R:/repo/Nuxt Blog/server/assets"}];
 
@@ -576,7 +579,235 @@ function cloneWithProxy(obj, overrides) {
 const cachedEventHandler = defineCachedEventHandler;
 
 const inlineAppConfig = {
-  "nuxt": {}
+  "nuxt": {},
+  "ui": {
+    "colors": {
+      "primary": "green",
+      "secondary": "blue",
+      "success": "green",
+      "info": "blue",
+      "warning": "yellow",
+      "error": "red",
+      "neutral": "slate"
+    },
+    "icons": {
+      "arrowLeft": "i-lucide-arrow-left",
+      "arrowRight": "i-lucide-arrow-right",
+      "check": "i-lucide-check",
+      "chevronDoubleLeft": "i-lucide-chevrons-left",
+      "chevronDoubleRight": "i-lucide-chevrons-right",
+      "chevronDown": "i-lucide-chevron-down",
+      "chevronLeft": "i-lucide-chevron-left",
+      "chevronRight": "i-lucide-chevron-right",
+      "chevronUp": "i-lucide-chevron-up",
+      "close": "i-lucide-x",
+      "ellipsis": "i-lucide-ellipsis",
+      "external": "i-lucide-arrow-up-right",
+      "file": "i-lucide-file",
+      "folder": "i-lucide-folder",
+      "folderOpen": "i-lucide-folder-open",
+      "loading": "i-lucide-loader-circle",
+      "minus": "i-lucide-minus",
+      "plus": "i-lucide-plus",
+      "search": "i-lucide-search",
+      "upload": "i-lucide-upload"
+    }
+  },
+  "icon": {
+    "provider": "server",
+    "class": "",
+    "aliases": {},
+    "iconifyApiEndpoint": "https://api.iconify.design",
+    "localApiEndpoint": "/api/_nuxt_icon",
+    "fallbackToApi": true,
+    "cssSelectorPrefix": "i-",
+    "cssWherePseudo": true,
+    "cssLayer": "components",
+    "mode": "css",
+    "attrs": {
+      "aria-hidden": true
+    },
+    "collections": [
+      "academicons",
+      "akar-icons",
+      "ant-design",
+      "arcticons",
+      "basil",
+      "bi",
+      "bitcoin-icons",
+      "bpmn",
+      "brandico",
+      "bx",
+      "bxl",
+      "bxs",
+      "bytesize",
+      "carbon",
+      "catppuccin",
+      "cbi",
+      "charm",
+      "ci",
+      "cib",
+      "cif",
+      "cil",
+      "circle-flags",
+      "circum",
+      "clarity",
+      "codicon",
+      "covid",
+      "cryptocurrency",
+      "cryptocurrency-color",
+      "dashicons",
+      "devicon",
+      "devicon-plain",
+      "ei",
+      "el",
+      "emojione",
+      "emojione-monotone",
+      "emojione-v1",
+      "entypo",
+      "entypo-social",
+      "eos-icons",
+      "ep",
+      "et",
+      "eva",
+      "f7",
+      "fa",
+      "fa-brands",
+      "fa-regular",
+      "fa-solid",
+      "fa6-brands",
+      "fa6-regular",
+      "fa6-solid",
+      "fad",
+      "fe",
+      "feather",
+      "file-icons",
+      "flag",
+      "flagpack",
+      "flat-color-icons",
+      "flat-ui",
+      "flowbite",
+      "fluent",
+      "fluent-emoji",
+      "fluent-emoji-flat",
+      "fluent-emoji-high-contrast",
+      "fluent-mdl2",
+      "fontelico",
+      "fontisto",
+      "formkit",
+      "foundation",
+      "fxemoji",
+      "gala",
+      "game-icons",
+      "geo",
+      "gg",
+      "gis",
+      "gravity-ui",
+      "gridicons",
+      "grommet-icons",
+      "guidance",
+      "healthicons",
+      "heroicons",
+      "heroicons-outline",
+      "heroicons-solid",
+      "hugeicons",
+      "humbleicons",
+      "ic",
+      "icomoon-free",
+      "icon-park",
+      "icon-park-outline",
+      "icon-park-solid",
+      "icon-park-twotone",
+      "iconamoon",
+      "iconoir",
+      "icons8",
+      "il",
+      "ion",
+      "iwwa",
+      "jam",
+      "la",
+      "lets-icons",
+      "line-md",
+      "logos",
+      "ls",
+      "lucide",
+      "lucide-lab",
+      "mage",
+      "majesticons",
+      "maki",
+      "map",
+      "marketeq",
+      "material-symbols",
+      "material-symbols-light",
+      "mdi",
+      "mdi-light",
+      "medical-icon",
+      "memory",
+      "meteocons",
+      "mi",
+      "mingcute",
+      "mono-icons",
+      "mynaui",
+      "nimbus",
+      "nonicons",
+      "noto",
+      "noto-v1",
+      "octicon",
+      "oi",
+      "ooui",
+      "openmoji",
+      "oui",
+      "pajamas",
+      "pepicons",
+      "pepicons-pencil",
+      "pepicons-pop",
+      "pepicons-print",
+      "ph",
+      "pixelarticons",
+      "prime",
+      "ps",
+      "quill",
+      "radix-icons",
+      "raphael",
+      "ri",
+      "rivet-icons",
+      "si-glyph",
+      "simple-icons",
+      "simple-line-icons",
+      "skill-icons",
+      "solar",
+      "streamline",
+      "streamline-emojis",
+      "subway",
+      "svg-spinners",
+      "system-uicons",
+      "tabler",
+      "tdesign",
+      "teenyicons",
+      "token",
+      "token-branded",
+      "topcoat",
+      "twemoji",
+      "typcn",
+      "uil",
+      "uim",
+      "uis",
+      "uit",
+      "uiw",
+      "unjs",
+      "vaadin",
+      "vs",
+      "vscode-icons",
+      "websymbol",
+      "weui",
+      "whh",
+      "wi",
+      "wpf",
+      "zmdi",
+      "zondicons"
+    ],
+    "fetchTimeout": 1500
+  }
 };
 
 
@@ -634,6 +865,22 @@ const _inlineRuntimeConfig = {
       "/__nuxt_error": {
         "cache": false
       },
+      "/_fonts/**": {
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        },
+        "cache": {
+          "maxAge": 31536000
+        }
+      },
+      "/_scripts/**": {
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        },
+        "cache": {
+          "maxAge": 31536000
+        }
+      },
       "/_nuxt/builds/meta/**": {
         "headers": {
           "cache-control": "public, max-age=31536000, immutable"
@@ -647,7 +894,29 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "appName": "Nuxt Blog"
+    "appName": "Nuxt Blog",
+    "nuxt-scripts": {
+      "version": "0.11.13",
+      "defaultScriptOptions": {
+        "trigger": "onNuxtReady"
+      }
+    }
+  },
+  "nuxt-scripts": {
+    "version": "0.11.13"
+  },
+  "icon": {
+    "serverKnownCssClasses": []
+  },
+  "ipx": {
+    "baseURL": "/_ipx",
+    "alias": {},
+    "fs": {
+      "dir": []
+    },
+    "http": {
+      "domains": []
+    }
   }
 };
 const envOptions = {
@@ -670,7 +939,12 @@ function useRuntimeConfig(event) {
   event.context.nitro.runtimeConfig = runtimeConfig;
   return runtimeConfig;
 }
-_deepFreeze(klona(appConfig));
+const _sharedAppConfig = _deepFreeze(klona(appConfig));
+function useAppConfig(event) {
+  {
+    return _sharedAppConfig;
+  }
+}
 function _deepFreeze(object) {
   const propNames = Object.getOwnPropertyNames(object);
   for (const name of propNames) {
@@ -1002,7 +1276,7 @@ async function errorHandler(error, event) {
   // H3 will handle fallback
 }
 
-const script = `
+const script$1 = `
 if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
   Object.defineProperty(window, '__NUXT_DEVTOOLS_TIME_METRIC__', {
     value: {},
@@ -1015,7 +1289,7 @@ window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
 
 const _yr5FZeuRds62V_aCWw_yNTpP0DqGbEG0jqDgsjeEz4 = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
-    htmlContext.head.push(`<script>${script}<\/script>`);
+    htmlContext.head.push(`<script>${script$1}<\/script>`);
   });
 });
 
@@ -1025,7 +1299,7 @@ const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width
 
 const appRootTag = "div";
 
-const appRootAttrs = {"id":"__nuxt"};
+const appRootAttrs = {"id":"__nuxt","class":"isolate"};
 
 const appTeleportTag = "div";
 
@@ -1111,9 +1385,18 @@ function onConsoleLog(callback) {
   consola$1.wrapConsole();
 }
 
+const script = "\"use strict\";(()=>{const t=window,e=document.documentElement,c=[\"dark\",\"light\"],n=getStorageValue(\"localStorage\",\"nuxt-color-mode\")||\"system\";let i=n===\"system\"?u():n;const r=e.getAttribute(\"data-color-mode-forced\");r&&(i=r),l(i),t[\"__NUXT_COLOR_MODE__\"]={preference:n,value:i,getColorScheme:u,addColorScheme:l,removeColorScheme:d};function l(o){const s=\"\"+o+\"\",a=\"\";e.classList?e.classList.add(s):e.className+=\" \"+s,a&&e.setAttribute(\"data-\"+a,o)}function d(o){const s=\"\"+o+\"\",a=\"\";e.classList?e.classList.remove(s):e.className=e.className.replace(new RegExp(s,\"g\"),\"\"),a&&e.removeAttribute(\"data-\"+a)}function f(o){return t.matchMedia(\"(prefers-color-scheme\"+o+\")\")}function u(){if(t.matchMedia&&f(\"\").media!==\"not all\"){for(const o of c)if(f(\":\"+o).matches)return o}return\"light\"}})();function getStorageValue(t,e){switch(t){case\"localStorage\":return window.localStorage.getItem(e);case\"sessionStorage\":return window.sessionStorage.getItem(e);case\"cookie\":return getCookie(e);default:return null}}function getCookie(t){const c=(\"; \"+window.document.cookie).split(\"; \"+t+\"=\");if(c.length===2)return c.pop()?.split(\";\").shift()}";
+
+const _fRT4Lda57njx5odirm8nbrMwchZWBGXqxmz7ANjYIYw = (function(nitro) {
+  nitro.hooks.hook("render:html", (htmlContext) => {
+    htmlContext.head.push(`<script>${script}<\/script>`);
+  });
+});
+
 const plugins = [
   _yr5FZeuRds62V_aCWw_yNTpP0DqGbEG0jqDgsjeEz4,
-_BfzSINl6IjcpalZkVMvFZHMoE90pXuO6PS9AKvFgR4
+_BfzSINl6IjcpalZkVMvFZHMoE90pXuO6PS9AKvFgR4,
+_fRT4Lda57njx5odirm8nbrMwchZWBGXqxmz7ANjYIYw
 ];
 
 const assets = {};
@@ -1123,7 +1406,7 @@ function readAsset (id) {
   return promises.readFile(resolve$1(serverDir, assets[id].path))
 }
 
-const publicAssetBases = {"/_nuxt/builds/meta/":{"maxAge":31536000},"/_nuxt/builds/":{"maxAge":1}};
+const publicAssetBases = {"/_nuxt/builds/meta/":{"maxAge":31536000},"/_nuxt/builds/":{"maxAge":1},"/_fonts/":{"maxAge":31536000},"/_scripts/":{"maxAge":31536000}};
 
 function isPublicAssetURL(id = '') {
   if (assets[id]) {
@@ -1205,6 +1488,229 @@ const _iqRJJy = eventHandler((event) => {
   return readAsset(id);
 });
 
+function defineRenderHandler(render) {
+  const runtimeConfig = useRuntimeConfig();
+  return eventHandler(async (event) => {
+    const nitroApp = useNitroApp();
+    const ctx = { event, render, response: void 0 };
+    await nitroApp.hooks.callHook("render:before", ctx);
+    if (!ctx.response) {
+      if (event.path === `${runtimeConfig.app.baseURL}favicon.ico`) {
+        setResponseHeader(event, "Content-Type", "image/x-icon");
+        return send(
+          event,
+          "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        );
+      }
+      ctx.response = await ctx.render(event);
+      if (!ctx.response) {
+        const _currentStatus = getResponseStatus(event);
+        setResponseStatus(event, _currentStatus === 200 ? 500 : _currentStatus);
+        return send(
+          event,
+          "No response returned from render handler: " + event.path
+        );
+      }
+    }
+    await nitroApp.hooks.callHook("render:response", ctx.response, ctx);
+    if (ctx.response.headers) {
+      setResponseHeaders(event, ctx.response.headers);
+    }
+    if (ctx.response.statusCode || ctx.response.statusMessage) {
+      setResponseStatus(
+        event,
+        ctx.response.statusCode,
+        ctx.response.statusMessage
+      );
+    }
+    return ctx.response.body;
+  });
+}
+
+const scheduledTasks = false;
+
+const tasks = {
+  
+};
+
+const __runningTasks__ = {};
+async function runTask(name, {
+  payload = {},
+  context = {}
+} = {}) {
+  if (__runningTasks__[name]) {
+    return __runningTasks__[name];
+  }
+  if (!(name in tasks)) {
+    throw createError({
+      message: `Task \`${name}\` is not available!`,
+      statusCode: 404
+    });
+  }
+  if (!tasks[name].resolve) {
+    throw createError({
+      message: `Task \`${name}\` is not implemented!`,
+      statusCode: 501
+    });
+  }
+  const handler = await tasks[name].resolve();
+  const taskEvent = { name, payload, context };
+  __runningTasks__[name] = handler.run(taskEvent);
+  try {
+    const res = await __runningTasks__[name];
+    return res;
+  } finally {
+    delete __runningTasks__[name];
+  }
+}
+
+function buildAssetsDir() {
+  return useRuntimeConfig().app.buildAssetsDir;
+}
+function buildAssetsURL(...path) {
+  return joinRelativeURL(publicAssetsURL(), buildAssetsDir(), ...path);
+}
+function publicAssetsURL(...path) {
+  const app = useRuntimeConfig().app;
+  const publicBase = app.cdnURL || app.baseURL;
+  return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
+}
+
+const posts$1 = [
+	{
+		id: "1",
+		title: "Pierwszy wpis na blogu",
+		excerpt: "Krótki opis pierwszego wpisu.",
+		publishedAt: "2025-09-01",
+		widgets: [
+			{
+				id: "w1",
+				type: "text",
+				html: "<p>To jest <strong>pierwszy</strong> akapit treści.</p>"
+			},
+			{
+				id: "w2",
+				type: "image",
+				url: "https://picsum.photos/seed/1/1200/600",
+				alt: "Obrazek 1"
+			}
+		]
+	},
+	{
+		id: "2",
+		title: "Drugi wpis z obrazkiem",
+		excerpt: "Opis drugiego wpisu.",
+		publishedAt: "2025-09-05",
+		widgets: [
+			{
+				id: "w3",
+				type: "text",
+				html: "<p>Wpis z obrazkiem poniżej.</p>"
+			},
+			{
+				id: "w4",
+				type: "image",
+				url: "https://picsum.photos/seed/2/1200/600",
+				alt: "Obrazek 2"
+			}
+		]
+	},
+	{
+		id: "3",
+		title: "Wpis o Nuxt 4",
+		excerpt: "Nowości i funkcje w Nuxt 4.",
+		publishedAt: "2025-09-12",
+		widgets: [
+			{
+				id: "w5",
+				type: "text",
+				html: "<p>Nuxt 4 to nowa generacja frameworka.</p>"
+			}
+		]
+	}
+];
+
+let posts = JSON.parse(JSON.stringify(posts$1));
+function getPost(id) {
+  return posts.find((p) => p.id === id) || null;
+}
+function createPost(post) {
+  posts.unshift(post);
+  return post;
+}
+function updatePost(id, patch) {
+  const index = posts.findIndex((p) => p.id === id);
+  if (index === -1) return null;
+  posts[index] = { ...posts[index], ...patch };
+  return posts[index];
+}
+function deletePost(id) {
+  const index = posts.findIndex((p) => p.id === id);
+  if (index === -1) return false;
+  posts.splice(index, 1);
+  return true;
+}
+
+const warnOnceSet = /* @__PURE__ */ new Set();
+const DEFAULT_ENDPOINT = "https://api.iconify.design";
+const _Lil1gK = defineCachedEventHandler(async (event) => {
+  const url = getRequestURL(event);
+  if (!url)
+    return createError({ status: 400, message: "Invalid icon request" });
+  const options = useAppConfig().icon;
+  const collectionName = event.context.params?.collection?.replace(/\.json$/, "");
+  const collection = collectionName ? await collections[collectionName]?.() : null;
+  const apiEndPoint = options.iconifyApiEndpoint || DEFAULT_ENDPOINT;
+  const icons = url.searchParams.get("icons")?.split(",");
+  if (collection) {
+    if (icons?.length) {
+      const data = getIcons(
+        collection,
+        icons
+      );
+      consola$1.debug(`[Icon] serving ${(icons || []).map((i) => "`" + collectionName + ":" + i + "`").join(",")} from bundled collection`);
+      return data;
+    }
+  } else {
+    if (collectionName && !warnOnceSet.has(collectionName) && apiEndPoint === DEFAULT_ENDPOINT) {
+      consola$1.warn([
+        `[Icon] Collection \`${collectionName}\` is not found locally`,
+        `We suggest to install it via \`npm i -D @iconify-json/${collectionName}\` to provide the best end-user experience.`
+      ].join("\n"));
+      warnOnceSet.add(collectionName);
+    }
+  }
+  if (options.fallbackToApi === true || options.fallbackToApi === "server-only") {
+    const apiUrl = new URL("./" + basename(url.pathname) + url.search, apiEndPoint);
+    consola$1.debug(`[Icon] fetching ${(icons || []).map((i) => "`" + collectionName + ":" + i + "`").join(",")} from iconify api`);
+    if (apiUrl.host !== new URL(apiEndPoint).host) {
+      return createError({ status: 400, message: "Invalid icon request" });
+    }
+    try {
+      const data = await $fetch(apiUrl.href);
+      return data;
+    } catch (e) {
+      consola$1.error(e);
+      if (e.status === 404)
+        return createError({ status: 404 });
+      else
+        return createError({ status: 500, message: "Failed to fetch fallback icon" });
+    }
+  }
+  return createError({ status: 404 });
+}, {
+  group: "nuxt",
+  name: "icon",
+  getKey(event) {
+    const collection = event.context.params?.collection?.replace(/\.json$/, "") || "unknown";
+    const icons = String(getQuery$1(event).icons || "");
+    return `${collection}_${icons.split(",")[0]}_${icons.length}_${hash$1(icons)}`;
+  },
+  swr: true,
+  maxAge: 60 * 60 * 24 * 7
+  // 1 week
+});
+
 const VueResolver = (_, value) => {
   return isRef(value) ? toValue(value) : value;
 };
@@ -1258,18 +1764,6 @@ function setSSRError(ssrContext, error) {
   ssrContext.error = true;
   ssrContext.payload = { error };
   ssrContext.url = error.url;
-}
-
-function buildAssetsDir() {
-  return useRuntimeConfig().app.buildAssetsDir;
-}
-function buildAssetsURL(...path) {
-  return joinRelativeURL(publicAssetsURL(), buildAssetsDir(), ...path);
-}
-function publicAssetsURL(...path) {
-  const app = useRuntimeConfig().app;
-  const publicBase = app.cdnURL || app.baseURL;
-  return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
 }
 
 const APP_ROOT_OPEN_TAG = `<${appRootTag}${propsToString(appRootAttrs)}>`;
@@ -1523,6 +2017,24 @@ async function getIslandContext(event) {
   return ctx;
 }
 
+const _KKjyzY = lazyEventHandler(() => {
+  const opts = useRuntimeConfig().ipx || {};
+  const fsDir = opts?.fs?.dir ? (Array.isArray(opts.fs.dir) ? opts.fs.dir : [opts.fs.dir]).map((dir) => isAbsolute(dir) ? dir : fileURLToPath(new URL(dir, globalThis._importMeta_.url))) : void 0;
+  const fsStorage = opts.fs?.dir ? ipxFSStorage({ ...opts.fs, dir: fsDir }) : void 0;
+  const httpStorage = opts.http?.domains ? ipxHttpStorage({ ...opts.http }) : void 0;
+  if (!fsStorage && !httpStorage) {
+    throw new Error("IPX storage is not configured!");
+  }
+  const ipxOptions = {
+    ...opts,
+    storage: fsStorage || httpStorage,
+    httpStorage
+  };
+  const ipx = createIPX(ipxOptions);
+  const ipxHandler = createIPXH3Handler(ipx);
+  return useBase(opts.baseURL, ipxHandler);
+});
+
 const _lazy_DF_rkx = () => Promise.resolve().then(function () { return posts_get$1; });
 const _lazy_bXp_6w = () => Promise.resolve().then(function () { return posts_post$1; });
 const _lazy_7Mf_l9 = () => Promise.resolve().then(function () { return _id__delete$1; });
@@ -1538,7 +2050,11 @@ const handlers = [
   { route: '/api/posts/:id', handler: _lazy_0XNzqa, lazy: true, middleware: false, method: "get" },
   { route: '/api/posts/:id', handler: _lazy_ugSNsG, lazy: true, middleware: false, method: "put" },
   { route: '/__nuxt_error', handler: _lazy_kLr_ql, lazy: true, middleware: false, method: undefined },
+  { route: '/api/_nuxt_icon/:collection', handler: _Lil1gK, lazy: false, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
+  { route: '/_ipx/**', handler: _KKjyzY, lazy: false, middleware: false, method: undefined },
+  { route: '/_fonts/**', handler: _lazy_kLr_ql, lazy: true, middleware: false, method: undefined },
+  { route: '/_scripts/**', handler: _lazy_kLr_ql, lazy: true, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_kLr_ql, lazy: true, middleware: false, method: undefined }
 ];
 
@@ -1683,82 +2199,6 @@ function useNitroApp() {
 }
 runNitroPlugins(nitroApp$1);
 
-function defineRenderHandler(render) {
-  const runtimeConfig = useRuntimeConfig();
-  return eventHandler(async (event) => {
-    const nitroApp = useNitroApp();
-    const ctx = { event, render, response: void 0 };
-    await nitroApp.hooks.callHook("render:before", ctx);
-    if (!ctx.response) {
-      if (event.path === `${runtimeConfig.app.baseURL}favicon.ico`) {
-        setResponseHeader(event, "Content-Type", "image/x-icon");
-        return send(
-          event,
-          "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-        );
-      }
-      ctx.response = await ctx.render(event);
-      if (!ctx.response) {
-        const _currentStatus = getResponseStatus(event);
-        setResponseStatus(event, _currentStatus === 200 ? 500 : _currentStatus);
-        return send(
-          event,
-          "No response returned from render handler: " + event.path
-        );
-      }
-    }
-    await nitroApp.hooks.callHook("render:response", ctx.response, ctx);
-    if (ctx.response.headers) {
-      setResponseHeaders(event, ctx.response.headers);
-    }
-    if (ctx.response.statusCode || ctx.response.statusMessage) {
-      setResponseStatus(
-        event,
-        ctx.response.statusCode,
-        ctx.response.statusMessage
-      );
-    }
-    return ctx.response.body;
-  });
-}
-
-const scheduledTasks = false;
-
-const tasks = {
-  
-};
-
-const __runningTasks__ = {};
-async function runTask(name, {
-  payload = {},
-  context = {}
-} = {}) {
-  if (__runningTasks__[name]) {
-    return __runningTasks__[name];
-  }
-  if (!(name in tasks)) {
-    throw createError({
-      message: `Task \`${name}\` is not available!`,
-      statusCode: 404
-    });
-  }
-  if (!tasks[name].resolve) {
-    throw createError({
-      message: `Task \`${name}\` is not implemented!`,
-      statusCode: 501
-    });
-  }
-  const handler = await tasks[name].resolve();
-  const taskEvent = { name, payload, context };
-  __runningTasks__[name] = handler.run(taskEvent);
-  try {
-    const res = await __runningTasks__[name];
-    return res;
-  } finally {
-    delete __runningTasks__[name];
-  }
-}
-
 if (!globalThis.crypto) {
   globalThis.crypto = nodeCrypto;
 }
@@ -1870,60 +2310,6 @@ const styles$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   default: styles
 }, Symbol.toStringTag, { value: 'Module' }));
 
-const seed = [
-	{
-		id: "1",
-		title: "Pierwszy wpis na blogu",
-		excerpt: "Krótki opis pierwszego wpisu.",
-		publishedAt: "2025-09-01",
-		widgets: [
-			{
-				id: "w1",
-				type: "text",
-				html: "<p>To jest <strong>pierwszy</strong> akapit treści.</p>"
-			},
-			{
-				id: "w2",
-				type: "image",
-				url: "https://picsum.photos/seed/1/1200/600",
-				alt: "Obrazek 1"
-			}
-		]
-	},
-	{
-		id: "2",
-		title: "Drugi wpis z obrazkiem",
-		excerpt: "Opis drugiego wpisu.",
-		publishedAt: "2025-09-05",
-		widgets: [
-			{
-				id: "w3",
-				type: "text",
-				html: "<p>Wpis z obrazkiem poniżej.</p>"
-			},
-			{
-				id: "w4",
-				type: "image",
-				url: "https://picsum.photos/seed/2/1200/600",
-				alt: "Obrazek 2"
-			}
-		]
-	},
-	{
-		id: "3",
-		title: "Wpis o Nuxt 4",
-		excerpt: "Nowości i funkcje w Nuxt 4.",
-		publishedAt: "2025-09-12",
-		widgets: [
-			{
-				id: "w5",
-				type: "text",
-				html: "<p>Nuxt 4 to nowa generacja frameworka.</p>"
-			}
-		]
-	}
-];
-
 const posts_get = defineEventHandler((event) => {
   var _a, _b, _c, _d, _e;
   const query = getQuery$1(event);
@@ -1931,7 +2317,7 @@ const posts_get = defineEventHandler((event) => {
   const date = (_c = query.date) != null ? _c : "";
   const page = Number((_d = query.page) != null ? _d : 1);
   const pageSize = Number((_e = query.pageSize) != null ? _e : 10);
-  let filtered = seed.filter((p) => {
+  let filtered = posts$1.filter((p) => {
     const matchesSearch = !search || p.title.toLowerCase().includes(search) || p.excerpt.toLowerCase().includes(search);
     const matchesDate = !date || p.publishedAt.startsWith(date);
     return matchesSearch && matchesDate;
@@ -1948,27 +2334,6 @@ const posts_get$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePropert
   __proto__: null,
   default: posts_get
 }, Symbol.toStringTag, { value: 'Module' }));
-
-let posts = JSON.parse(JSON.stringify(seed));
-function getPost(id) {
-  return posts.find((p) => p.id === id) || null;
-}
-function createPost(post) {
-  posts.unshift(post);
-  return post;
-}
-function updatePost(id, patch) {
-  const index = posts.findIndex((p) => p.id === id);
-  if (index === -1) return null;
-  posts[index] = { ...posts[index], ...patch };
-  return posts[index];
-}
-function deletePost(id) {
-  const index = posts.findIndex((p) => p.id === id);
-  if (index === -1) return false;
-  posts.splice(index, 1);
-  return true;
-}
 
 const posts_post = defineEventHandler(async (event) => {
   const body = await readBody(event);

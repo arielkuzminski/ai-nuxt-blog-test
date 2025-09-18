@@ -94,6 +94,30 @@
       "pinia": [
         "../node_modules/pinia/dist/pinia"
       ],
+      "#image": [
+        "../node_modules/@nuxt/image/dist/runtime"
+      ],
+      "#image/*": [
+        "../node_modules/@nuxt/image/dist/runtime/*"
+      ],
+      "#nuxt-scripts-validator": [
+        "../node_modules/@nuxt/scripts/dist/runtime/validation/valibot"
+      ],
+      "#nuxt-scripts": [
+        "../node_modules/@nuxt/scripts/dist/runtime"
+      ],
+      "#nuxt-scripts/*": [
+        "../node_modules/@nuxt/scripts/dist/runtime/*"
+      ],
+      "#ui": [
+        "../node_modules/@nuxt/ui/dist/runtime"
+      ],
+      "#ui/*": [
+        "../node_modules/@nuxt/ui/dist/runtime/*"
+      ],
+      "#color-mode-options": [
+        "./color-mode-options.mjs"
+      ],
       "#vue-router": [
         "../node_modules/vue-router"
       ],

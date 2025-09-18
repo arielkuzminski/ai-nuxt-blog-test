@@ -1,5 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  compatibilityDate: '2025-07-15',
+  devtools: { enabled: true },
   future: {
     compatibilityVersion: 4,
   },
@@ -10,8 +12,14 @@ export default defineNuxtConfig({
       crawlLinks: true,
     },
   },
-  modules: ['@pinia/nuxt'],
-  css: ['~/assets/css/tailwind.css'],
+  modules: [
+    '@pinia/nuxt',
+    '@nuxt/eslint',
+    '@nuxt/image',
+    '@nuxt/scripts',
+    '@nuxt/ui' // Handles Tailwind v4 automatically
+  ],
+  css: ['~/main.css'],
   typescript: {
     strict: true,
     typeCheck: true,
@@ -20,6 +28,9 @@ export default defineNuxtConfig({
     public: {
       appName: 'Nuxt Blog',
     },
+  },
+  ui: {
+    prefix: 'Nuxt',
   },
   app: {
     head: {
